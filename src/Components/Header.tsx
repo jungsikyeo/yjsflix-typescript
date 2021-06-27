@@ -1,37 +1,53 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import { ReactComponent as Search } from "../assets/search.svg";
+import yjsflix from "../assets/yjsflix.png";
 
 export default withRouter(({ location: { pathname } }) => (
-  <header className="fixed top-0 left-0 w-full h-12 px-4 flex items-center bg-black opacity-80 z-10 shadow-2xl text-white">
+  <header className="fixed top-0 left-0 w-full h-14 px-4 flex items-center bg-black opacity-80 z-10 shadow-header text-white text-xl font-medium">
     <div className="w-full flex justify-between">
       <ul className="flex">
+        <li className="w-32 h-14">
+          <Link to="/" className="h-14 flex justify-start items-center">
+            <img src={yjsflix} alt="yjsflix" className="w-28"/>
+          </Link>
+        </li>
         <li
-          className={`w-12 h-12 text-center border-b-2 ${
-            pathname === "/" ? `border-blue-500` : `border-transparent`
+            className={`w-20 h-14 ml-10 text-center border-b-2 ${
+                pathname === "/" ? `border-red-500` : `border-transparent font-extralight opacity-40`
+            }`}
+        >
+          <Link to="/" className="h-14 flex justify-center items-center">
+            Home
+          </Link>
+        </li>
+        <li
+          className={`w-20 h-14 ml-10 text-center border-b-2 ml-4 ${
+            pathname === "/movies" ? `border-red-500` : `border-transparent font-extralight opacity-40`
           }`}
         >
-          <Link to="/" className="h-12 flex justify-center items-center">
+          <Link to="/movies" className="h-14 flex justify-center items-center">
             Movies
           </Link>
         </li>
         <li
-          className={`w-12 h-12 text-center border-b-2 pl-2 ${
-            pathname === "/tv" ? `border-blue-500` : `border-transparent`
+          className={`w-20 h-14 text-center border-b-2 ml-4 ${
+            pathname === "/tv" ? `border-red-500` : `border-transparent font-extralight opacity-40`
           }`}
         >
-          <Link to="/tv" className="h-12 flex justify-center items-center">
+          <Link to="/tv" className="h-14 flex justify-center items-center">
             TV
           </Link>
         </li>
       </ul>
       <ul className="flex">
         <li
-          className={`w-12 h-12 text-center border-b-2 ${
-            pathname === "/search" ? `border-blue-500` : `border-transparent`
+          className={`w-20 h-14 text-center border-b-2 ${
+            pathname === "/search" ? `border-red-700` : `border-transparent`
           }`}
         >
-          <Link to="/search" className="h-12 flex justify-center items-center">
-            Search
+          <Link to="/search" className="h-14 flex justify-center items-center">
+            <Search className="w-5 h-5" />
           </Link>
         </li>
       </ul>

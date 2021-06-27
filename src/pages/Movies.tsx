@@ -15,21 +15,12 @@ interface IPoster {
   isMovie: boolean;
 }
 
-const initPoster: [IPoster] = [
-  {
-    id: 0,
-    poster_path: "",
-    original_title: "",
-    vote_average: 0,
-    release_date: "",
-    isMovie: true,
-  },
-];
+const initPoster: IPoster[] | null = [];
 
 const Movies = () => {
-  const [nowPlaying, setNowPlaying] = useState<[IPoster]>(initPoster);
-  const [upcoming, setUpcoming] = useState<[IPoster]>(initPoster);
-  const [popular, setPopular] = useState<[IPoster]>(initPoster);
+  const [nowPlaying, setNowPlaying] = useState<IPoster[]>(initPoster);
+  const [upcoming, setUpcoming] = useState<IPoster[]>(initPoster);
+  const [popular, setPopular] = useState<IPoster[]>(initPoster);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

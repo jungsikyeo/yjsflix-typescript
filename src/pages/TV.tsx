@@ -14,20 +14,12 @@ interface IPoster {
   first_air_date: string;
 }
 
-const initPoster: [IPoster] = [
-  {
-    id: 0,
-    poster_path: "",
-    original_name: "",
-    vote_average: 0,
-    first_air_date: "",
-  },
-];
+const initPoster: IPoster[] | null = [];
 
 const TV = () => {
-  const [topRated, setTopRated] = useState<[IPoster]>(initPoster);
-  const [popular, setPopular] = useState<[IPoster]>(initPoster);
-  const [airingToday, setAiringToday] = useState<[IPoster]>(initPoster);
+  const [topRated, setTopRated] = useState<IPoster[]>(initPoster);
+  const [popular, setPopular] = useState<IPoster[]>(initPoster);
+  const [airingToday, setAiringToday] = useState<IPoster[]>(initPoster);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

@@ -38,7 +38,7 @@ const Poster = ({
               backgroundImage: `${
                 imageUrl
                   ? `url("https://image.tmdb.org/t/p/w300${imageUrl}")`
-                  : `${noPosterSmall}`
+                  : `url(${noPosterSmall})`
               }`,
             }}
           />
