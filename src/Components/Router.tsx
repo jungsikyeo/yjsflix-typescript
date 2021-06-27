@@ -1,0 +1,26 @@
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
+import Movies from "../pages/Movies";
+import { Search } from "../pages/Search";
+import { TV } from "../pages/TV";
+import { Detail } from "../pages/Detail";
+import Header from "./Header";
+
+export default () => (
+  <Router>
+    <Header />
+    <Switch>
+      <Route path="/" exact component={Movies} />
+      <Route path="/tv" exact component={TV} />
+      <Route path="/search" component={Search} />
+      <Route path="/movie/:id" component={Detail} />
+      <Route path="/show/:id" component={Detail} />
+      <Redirect from="*" to="/" />
+    </Switch>
+  </Router>
+);
