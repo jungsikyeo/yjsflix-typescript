@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Movies from "../pages/Movies";
 import { Search } from "../pages/Search";
-import { TV } from "../pages/TV";
+import TV from "../pages/TV";
 import { Detail } from "../pages/Detail";
 import Header from "./Header";
 
