@@ -20,7 +20,6 @@ const Carousel = ({ trendingData }: any) => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-  console.log(trendingData);
 
   return (
     <Slider {...settings}>

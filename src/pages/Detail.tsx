@@ -57,7 +57,7 @@ const Detail = withRouter((props) => {
   };
 
   const getContent = async () => {
-    const { id, push } = getId();
+    const { id, push } = await getId();
 
     if (isNaN(Number(id))) {
       return push("/");
@@ -69,9 +69,12 @@ const Detail = withRouter((props) => {
       ({ data: casts } = await moviesApi.getCasts(Number(id)));
       result.casts = casts;
       setResult(result);
-      console.log(result);
     } else {
       ({ data: result } = await tvApi.showDetail(Number(id)));
+      ({ data: casts } = await tvApi.getCasts(Number(id)));
+      result.casts = casts;
+      console.log(result);
+      setResult(result);
     }
   };
 
