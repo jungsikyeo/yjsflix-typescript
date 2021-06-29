@@ -7,6 +7,17 @@ import { withRouter } from "react-router-dom";
 import { moviesApi, tvApi } from "../api";
 import Message from "../Components/Message";
 
+interface ICast {
+  name: string;
+  known_for_department: string;
+  order: number;
+}
+
+interface ICrew {
+  name: string;
+  known_for_department: string;
+}
+
 interface IResult {
   original_title?: string;
   original_name?: string;
@@ -19,6 +30,10 @@ interface IResult {
   episode_run_time?: number[];
   vote_average?: number;
   overview?: string;
+  casts?: {
+    cast: [ICast];
+    crew: [ICrew];
+  };
 }
 
 const initResult = {};
@@ -28,24 +43,36 @@ const Detail = withRouter((props) => {
   const [error, setError] = useState("");
   const [result, setResult] = useState<IResult>(initResult);
 
-  const getContent = async () => {
+  const getId = () => {
     const {
       match: {
         params: { id },
       },
       history: { push },
     } = props;
+    return {
+      id,
+      push,
+    };
+  };
+
+  const getContent = async () => {
+    const { id, push } = getId();
 
     if (isNaN(Number(id))) {
       return push("/");
     }
     let result = null;
+    let casts = null;
     if (props.location.pathname.includes("/movie/")) {
       ({ data: result } = await moviesApi.movieDetail(Number(id)));
+      ({ data: casts } = await moviesApi.getCasts(Number(id)));
+      result.casts = casts;
+      setResult(result);
+      console.log(result);
     } else {
       ({ data: result } = await tvApi.showDetail(Number(id)));
     }
-    setResult(result);
   };
 
   useEffect(() => {
@@ -77,14 +104,14 @@ const Detail = withRouter((props) => {
       />
       <div className="relative w-full h-full flex p-10 z-10">
         <div
-          className="w-4/12 h-full bg-center bg-cover rounded"
+          className="w-4/12 h-full bg-center bg-cover rounded-lg"
           style={{
             backgroundImage: result.poster_path
               ? `url(https://image.tmdb.org/t/p/original${result.poster_path})`
               : noPosterSmall,
           }}
         />
-        <div className="mt-10 w-8/12 ml-10">
+        <div className="mt-5 w-8/12 ml-10">
           <span className="text-4xl font-black uppercase">
             {result.original_title
               ? result.original_title
@@ -120,7 +147,44 @@ const Detail = withRouter((props) => {
               ( {result.vote_average} )
             </span>
           </div>
-          <p className="w-1/2 opacity-70 leading-relaxed">{result.overview}</p>
+          <div>
+            {result.casts?.crew
+              .filter((crew) => crew.known_for_department === "Directing")
+              .map((crew) => (
+                <div>
+                  <span className="">Director: </span>
+                  <span>{crew.name}</span>
+                </div>
+              ))}
+            <div className="mb-5">
+              <span className="">Stars: </span>
+              {result.casts?.cast
+                .filter((cast) => cast.known_for_department === "Acting")
+                .sort((a: ICast, b: ICast) => a.order - b.order)
+                .filter((_, index: number) => index <= 4)
+                .map((cast, index) => (
+                  <span className="text-blue-900">{`${index > 0 ? `/ ` : ``} ${
+                    cast.name
+                  }`}</span>
+                ))}
+            </div>
+          </div>
+          <p className="w-full opacity-70 font-thin">{result.overview}</p>
+          <div className="w-full h-52 mt-10">
+            <ul className="py-2.5 tracking-widest bg-black flex justify-around rounded-t-lg">
+              <li>VIDEOS</li>
+              <li>COMPANIES</li>
+              <li>COUNTRIES</li>
+            </ul>
+            <div className="bg-gray-400 bg-opacity-20 rounded-b-lg">
+              <ul className="flex">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
       {error && <Message color="#e74c3c" text={error} />}

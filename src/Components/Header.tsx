@@ -9,13 +9,15 @@ export default withRouter(({ location: { pathname } }) => (
       <ul className="flex">
         <li className="w-32 h-14">
           <Link to="/" className="h-14 flex justify-start items-center">
-            <img src={yjsflix} alt="yjsflix" className="w-28"/>
+            <img src={yjsflix} alt="yjsflix" className="w-28" />
           </Link>
         </li>
         <li
-            className={`w-20 h-14 ml-10 text-center border-b-2 ${
-                pathname === "/" ? `border-red-500` : `border-transparent font-extralight opacity-40`
-            }`}
+          className={`w-20 h-14 ml-10 text-center border-b-2 ${
+            pathname === "/"
+              ? `border-red-500`
+              : `border-transparent font-extralight opacity-40`
+          }`}
         >
           <Link to="/" className="h-14 flex justify-center items-center">
             Home
@@ -23,7 +25,9 @@ export default withRouter(({ location: { pathname } }) => (
         </li>
         <li
           className={`w-20 h-14 ml-10 text-center border-b-2 ml-4 ${
-            pathname === "/movies" ? `border-red-500` : `border-transparent font-extralight opacity-40`
+            pathname.indexOf("/movie") >= 0
+              ? `border-red-500`
+              : `border-transparent font-extralight opacity-40`
           }`}
         >
           <Link to="/movies" className="h-14 flex justify-center items-center">
@@ -32,7 +36,9 @@ export default withRouter(({ location: { pathname } }) => (
         </li>
         <li
           className={`w-20 h-14 text-center border-b-2 ml-4 ${
-            pathname === "/tv" ? `border-red-500` : `border-transparent font-extralight opacity-40`
+            pathname.indexOf("/tv") >= 0 || pathname.indexOf("/show") >= 0
+              ? `border-red-500`
+              : `border-transparent font-extralight opacity-40`
           }`}
         >
           <Link to="/tv" className="h-14 flex justify-center items-center">

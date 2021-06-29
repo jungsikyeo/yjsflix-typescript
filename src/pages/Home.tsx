@@ -26,12 +26,12 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Videoland!</title>
+        <title>YJSFLIX</title>
       </Helmet>
       {isLoading ? (
         <Loader />
       ) : (
-        <div>
+        <div className="w-full">
           <Carousel trendingData={trendingData} />
           {error && <Message text={error} color="#e50914" />}
         </div>
