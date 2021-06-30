@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { IVideo } from "../pages/Detail";
 import VideosTab from "./VideosTab";
 import CompaniesTab from "./CompaniesTab";
 import CountriesTab from "./CountriesTab";
@@ -45,7 +44,7 @@ const Tabs = (props: any) => {
         tabContent: <CountriesTab countries={props.countries} />,
       },
     ]);
-    if (props.seasons !== undefined) {
+    if (props.seasons !== null) {
       setTabs((prevTabs) => [
         ...prevTabs,
         {
@@ -66,8 +65,12 @@ const Tabs = (props: any) => {
           <li
             key={index}
             onClick={() => onClickTab(index)}
-            className={`w-full flex justify-center items-center bg-black rounded-md ${
-              tabIndex === index ? `opacity-100 bg-opacity-100` : `opacity-50 bg-opacity-50`
+            className={`w-full flex justify-center items-center bg-black rounded-md cursor-pointer ${
+              index === 1 ? `mx-1` : ``
+            } ${
+              tabIndex === index
+                ? `opacity-100 bg-opacity-100`
+                : `opacity-50 bg-opacity-50`
             }`}
           >
             {tab.tabTitle}

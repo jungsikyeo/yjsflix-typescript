@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Star from "../Components/Star";
 import Message from "../Components/Message";
@@ -22,10 +21,31 @@ interface ICrew {
   known_for_department: string;
 }
 
-export interface IVideo {
+export interface IVideos {
   id: string;
   name: string;
   key: string;
+}
+
+export interface ICompanies {
+  id: string;
+  logo_path: string;
+  name: string;
+  origin_country: string;
+}
+
+export interface ICountries {
+  name: string;
+}
+
+export interface ISeasons {
+  air_date?: string;
+  episode_count?: number;
+  id: number;
+  name: string;
+  overview?: string;
+  poster_path?: string;
+  season_number?: number;
 }
 
 interface IResult {
@@ -46,15 +66,11 @@ interface IResult {
     crew: ICrew[];
   };
   videos?: {
-    results: IVideo[] | null;
+    results: IVideos[] | null;
   };
-  production_companies?: [] | null;
-  production_countries?: [] | null;
-}
-
-interface ITab {
-  tabId: string | null;
-  tabContent: object | null;
+  production_companies?: ICompanies[] | null;
+  production_countries?: ICountries[] | null;
+  seasons?: ISeasons[] | null;
 }
 
 const initResult = {};
@@ -63,8 +79,6 @@ const Detail = withRouter((props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [result, setResult] = useState<IResult>(initResult);
-  const [tabs, setTabs] = useState<[ITab]>([{ tabId: null, tabContent: null }]);
-  const [tabIndex, setTabIndex] = useState(0);
 
   const getId = () => {
     const {
@@ -98,19 +112,6 @@ const Detail = withRouter((props) => {
       result.casts = casts;
       setResult(result);
     }
-  };
-
-  const getTabContent = async (title: string) => {
-    /*
-    const tabs = (
-      <div className="grid grid-cols-2 gap-10">
-        {result.videos?.results.map((video) => (
-          <div className="bg-red-900">{title}</div>
-        ))}
-      </div>
-    );
-    */
-    setTabs([{ tabId: title, tabContent: tabs }]);
   };
 
   useEffect(() => {
@@ -236,6 +237,7 @@ const Detail = withRouter((props) => {
               videos={result.videos?.results}
               companies={result.production_companies}
               countries={result.production_countries}
+              seasons={result.seasons}
             />
           </div>
         </div>

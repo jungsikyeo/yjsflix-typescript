@@ -1,19 +1,13 @@
 import React from "react";
-import { IVideo } from "../pages/Detail";
+import { ICountries } from "../pages/Detail";
 import Message from "./Message";
 
 const CountriesTab = (props: any) => {
   return (
-    <div className="grid grid-cols-2 gap-5">
-      {props.videos && props.videos.length > 0 ? (
-        props.videos.map((video: IVideo) => (
-          <div key={video.id}>
-            <iframe
-              src={`https://www.youtube.com/embed/${video.key}`}
-              height="220px"
-            />
-            <span>{video.name}</span>
-          </div>
+    <div className="flex justify-center items-center p-5 bg-gray-500 bg-opacity-20">
+      {props.countries && props.countries.length > 0 ? (
+        props.countries.map((country: ICountries) => (
+          <span>{country.name}</span>
         ))
       ) : (
         <Message color="#e74c3c" text={"No data."} />
