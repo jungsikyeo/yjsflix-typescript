@@ -57,25 +57,26 @@ const Tabs = (props: any) => {
   }, []);
 
   return (
-    <div className="flex">
-      <ul className="">
-        <>
-          {tabs.map((tab, index) => (
-            <li key={index} onClick={() => onClickTab(index)}>
-              <div className={``}>{tab.tabTitle}</div>
-            </li>
-          ))}
-        </>
+    <div className="w-full h-full flex flex-col">
+      <ul
+        className="w-full flex flex-row justify-around"
+        style={{ height: "12%" }}
+      >
+        {tabs.map((tab, index) => (
+          <li
+            key={index}
+            onClick={() => onClickTab(index)}
+            className={`w-full flex justify-center items-center bg-black rounded-md ${
+              tabIndex === index ? `opacity-100 bg-opacity-100` : `opacity-50 bg-opacity-50`
+            }`}
+          >
+            {tab.tabTitle}
+          </li>
+        ))}
       </ul>
-      <div>{tabs[tabIndex].tabContent}</div>
-    </div>
-  );
-
-  return (
-    <div className="grid grid-cols-2 gap-10">
-      {props.videos.map((video: any) => (
-        <div className="bg-red-900">Video</div>
-      ))}
+      <div className="w-full overflow-y-auto" style={{ height: "88%" }}>
+        {tabs[tabIndex].tabContent}
+      </div>
     </div>
   );
 };

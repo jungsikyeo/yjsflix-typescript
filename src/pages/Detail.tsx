@@ -231,7 +231,7 @@ const Detail = withRouter((props) => {
             </div>
           </div>
           <p className="w-full opacity-70 font-thin">{result.overview}</p>
-          <div className="w-full h-52 mt-10">
+          <div className="w-full h-3/5 mt-10">
             <Tabs
               videos={result.videos?.results}
               companies={result.production_companies}
