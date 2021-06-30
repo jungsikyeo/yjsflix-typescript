@@ -14,7 +14,7 @@ const VideosTab = (props: any) => {
                 src={`https://www.youtube.com/embed/${video.key}`}
                 className="w-full h-full bg-cover bg-center"
               />
-              <span>{video.name}</span>
+              <span className="mt-4">{video.name}</span>
             </div>
           ))}
         </div>

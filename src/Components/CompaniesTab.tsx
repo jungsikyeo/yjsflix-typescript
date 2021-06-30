@@ -9,7 +9,7 @@ const CompaniesTab = (props: any) => {
       {props.companies && props.companies.length > 0 ? (
         <div className="grid grid-cols-2 xl:grid-cols-3 gap-5 p-5 bg-gray-500 bg-opacity-20">
           {props.companies.map((companie: ICompanies) => (
-            <div key={companie.id} className="w-full h-40 flex flex-col">
+            <div key={companie.id} className="w-full h-52 flex flex-col">
               <img
                 src={
                   companie.logo_path
@@ -17,9 +17,9 @@ const CompaniesTab = (props: any) => {
                     : noPosterSmall
                 }
                 alt={companie.name}
-                className="w-full h-full"
+                className="w-full h-40"
               />
-              <span>{companie.name}</span>
+              <span className="mt-4">{companie.name}</span>
             </div>
           ))}
         </div>

@@ -9,7 +9,7 @@ const SeasonsTab = (props: any) => {
       {props.seasons && props.seasons.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-5 p-5 bg-gray-500 bg-opacity-20">
           {props.seasons.map((season: ISeasons) => (
-            <div key={season.id} className="w-full h-64 flex flex-col">
+            <div key={season.id} className="w-full h-72 flex flex-col">
               <img
                 src={
                   season.poster_path
@@ -17,9 +17,9 @@ const SeasonsTab = (props: any) => {
                     : noPosterSmall
                 }
                 alt={season.name}
-                className="w-full h-full"
+                className="w-full h-64"
               />
-              <span>{season.name}</span>
+              <span className="mt-4">{season.name}</span>
             </div>
           ))}
         </div>
