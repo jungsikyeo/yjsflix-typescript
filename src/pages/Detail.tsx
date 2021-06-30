@@ -143,14 +143,14 @@ const Detail = withRouter((props) => {
       />
       <div className="relative w-full h-full flex p-10 z-10">
         <div
-          className="w-4/12 h-full bg-center bg-cover rounded-lg"
+          className="w-4/12 h-full bg-center bg-cover rounded-lg hidden md:block"
           style={{
             backgroundImage: result.poster_path
               ? `url(https://image.tmdb.org/t/p/original${result.poster_path})`
               : noPosterSmall,
           }}
         />
-        <div className="mt-5 w-8/12 ml-10">
+        <div className="mt-5 w-full md:w-8/12 md:ml-10">
           <div className="flex justify-between">
             <span className="text-4xl font-black uppercase">
               {result.original_title
@@ -232,7 +232,7 @@ const Detail = withRouter((props) => {
             </div>
           </div>
           <p className="w-full opacity-70 font-thin">{result.overview}</p>
-          <div className="w-full h-3/5 mt-10">
+          <div className="w-full h-full mt-10">
             <Tabs
               videos={result.videos?.results}
               companies={result.production_companies}

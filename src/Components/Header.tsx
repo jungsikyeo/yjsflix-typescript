@@ -4,7 +4,7 @@ import { ReactComponent as Search } from "../assets/search.svg";
 import yjsflix from "../assets/yjsflix.png";
 
 export default withRouter(({ location: { pathname } }) => (
-  <header className="fixed top-0 left-0 w-full h-14 px-4 flex items-center bg-black opacity-80 z-10 shadow-header text-white text-xl font-medium">
+  <header className="fixed top-0 left-0 w-full h-14 px-4 flex items-center bg-black opacity-80 z-50 shadow-header text-white text-xl font-medium">
     <div className="w-full flex justify-between">
       <ul className="flex">
         <li className="w-32 h-14">

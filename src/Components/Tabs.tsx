@@ -44,7 +44,7 @@ const Tabs = (props: any) => {
         tabContent: <CountriesTab countries={props.countries} />,
       },
     ]);
-    if (props.seasons !== null) {
+    if (props.seasons !== null && props.seasons !== undefined) {
       setTabs((prevTabs) => [
         ...prevTabs,
         {
@@ -59,7 +59,7 @@ const Tabs = (props: any) => {
     <div className="w-full h-full flex flex-col">
       <ul
         className="w-full flex flex-row justify-around"
-        style={{ height: "12%" }}
+        style={{ height: "50px" }}
       >
         {tabs.map((tab, index) => (
           <li
@@ -77,7 +77,7 @@ const Tabs = (props: any) => {
           </li>
         ))}
       </ul>
-      <div className="w-full overflow-y-auto" style={{ height: "88%" }}>
+      <div className="w-full overflow-y-auto" style={{ height: "calc(100% - 50px)" }}>
         {tabs[tabIndex].tabContent}
       </div>
     </div>
