@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Loader } from "../Components/Loader";
-import noPosterSmall from "../assets/noPosterSmall.png";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Star from "../Components/Star";
+import Message from "../Components/Message";
+import { Loader } from "../Components/Loader";
 import { withRouter } from "react-router-dom";
 import { moviesApi, tvApi } from "../api";
-import Message from "../Components/Message";
+import { ReactComponent as Imdb } from "../assets/imdb.svg";
+import noPosterSmall from "../assets/noPosterSmall.png";
+import Tabs from "../Components/Tabs";
 
 interface ICast {
   name: string;
@@ -15,7 +18,14 @@ interface ICast {
 
 interface ICrew {
   name: string;
+  department: string;
   known_for_department: string;
+}
+
+export interface IVideo {
+  id: string;
+  name: string;
+  key: string;
 }
 
 interface IResult {
@@ -30,10 +40,21 @@ interface IResult {
   episode_run_time?: number[];
   vote_average?: number;
   overview?: string;
+  imdb_id?: string;
   casts?: {
-    cast: [ICast];
-    crew: [ICrew];
+    cast: ICast[];
+    crew: ICrew[];
   };
+  videos?: {
+    results: IVideo[] | null;
+  };
+  production_companies?: [] | null;
+  production_countries?: [] | null;
+}
+
+interface ITab {
+  tabId: string | null;
+  tabContent: object | null;
 }
 
 const initResult = {};
@@ -42,6 +63,8 @@ const Detail = withRouter((props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [result, setResult] = useState<IResult>(initResult);
+  const [tabs, setTabs] = useState<[ITab]>([{ tabId: null, tabContent: null }]);
+  const [tabIndex, setTabIndex] = useState(0);
 
   const getId = () => {
     const {
@@ -73,9 +96,21 @@ const Detail = withRouter((props) => {
       ({ data: result } = await tvApi.showDetail(Number(id)));
       ({ data: casts } = await tvApi.getCasts(Number(id)));
       result.casts = casts;
-      console.log(result);
       setResult(result);
     }
+  };
+
+  const getTabContent = async (title: string) => {
+    /*
+    const tabs = (
+      <div className="grid grid-cols-2 gap-10">
+        {result.videos?.results.map((video) => (
+          <div className="bg-red-900">{title}</div>
+        ))}
+      </div>
+    );
+    */
+    setTabs([{ tabId: title, tabContent: tabs }]);
   };
 
   useEffect(() => {
@@ -115,11 +150,25 @@ const Detail = withRouter((props) => {
           }}
         />
         <div className="mt-5 w-8/12 ml-10">
-          <span className="text-4xl font-black uppercase">
-            {result.original_title
-              ? result.original_title
-              : result.original_name}
-          </span>
+          <div className="flex justify-between">
+            <span className="text-4xl font-black uppercase">
+              {result.original_title
+                ? result.original_title
+                : result.original_name}
+            </span>
+            {result.imdb_id && (
+              <button
+                onClick={() =>
+                  window.open(
+                    `https://www.imdb.com/title/${result.imdb_id}`,
+                    `_blank`
+                  )
+                }
+              >
+                <Imdb />
+              </button>
+            )}
+          </div>
           <div className="my-4 text-base">
             <span>
               {result?.genres &&
@@ -151,22 +200,31 @@ const Detail = withRouter((props) => {
             </span>
           </div>
           <div>
-            {result.casts?.crew
-              .filter((crew) => crew.known_for_department === "Directing")
-              .map((crew) => (
-                <div>
-                  <span className="">Director: </span>
-                  <span>{crew.name}</span>
-                </div>
-              ))}
+            <div>
+              <span className="">Director: </span>
+              {result.casts?.crew
+                .filter(
+                  (crew: ICrew) => crew.known_for_department === "Directing"
+                )
+                .map((crew: ICrew) => crew.name)
+                .filter(
+                  (name: string, index: number, self) =>
+                    self.indexOf(name) === index
+                )
+                .map((name: string, index: number) => (
+                  <span className="text-blue-400">{`${
+                    index > 0 ? ` / ` : ``
+                  } ${name}`}</span>
+                ))}
+            </div>
             <div className="mb-5">
               <span className="">Stars: </span>
               {result.casts?.cast
-                .filter((cast) => cast.known_for_department === "Acting")
+                .filter((cast: ICast) => cast.known_for_department === "Acting")
                 .sort((a: ICast, b: ICast) => a.order - b.order)
                 .filter((_, index: number) => index <= 4)
-                .map((cast, index) => (
-                  <span className="text-blue-900">{`${index > 0 ? `/ ` : ``} ${
+                .map((cast: ICast, index: number) => (
+                  <span className="text-blue-400">{`${index > 0 ? ` / ` : ``} ${
                     cast.name
                   }`}</span>
                 ))}
@@ -174,19 +232,11 @@ const Detail = withRouter((props) => {
           </div>
           <p className="w-full opacity-70 font-thin">{result.overview}</p>
           <div className="w-full h-52 mt-10">
-            <ul className="py-2.5 tracking-widest bg-black flex justify-around rounded-t-lg">
-              <li>VIDEOS</li>
-              <li>COMPANIES</li>
-              <li>COUNTRIES</li>
-            </ul>
-            <div className="bg-gray-400 bg-opacity-20 rounded-b-lg">
-              <ul className="flex">
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-              </ul>
-            </div>
+            <Tabs
+              videos={result.videos?.results}
+              companies={result.production_companies}
+              countries={result.production_countries}
+            />
           </div>
         </div>
       </div>
